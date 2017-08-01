@@ -1,0 +1,41 @@
+/**
+ * TCSS 305 - SPRING 2016
+ * Assignment 3 - Easy Street
+ */
+package tests;
+
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import model.Direction;
+import model.Human;
+import model.Light;
+import model.Terrain;
+
+import org.junit.Test;
+
+/**
+ * Unit tests for Truck.
+ * 
+ * @author John Chang
+ * @version 25 April 2016
+ */
+public class TruckTest {
+
+    /**
+     * The number of times random is tested to make sure all options are available.
+     */
+    private static final int RANDOM_TEST = 50;
+    
+    /** Test method Truck constructor. */
+    @Test
+    public void testTruckConstructor() {
+        // TODO Auto-generated constructor stub
+    }
+
+}

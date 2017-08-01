@@ -1,0 +1,29 @@
+/**
+ * TCSS 305 - SPRING 2016
+ * Assignment 3 - Easy Street
+ */
+package model;
+
+/**
+ * Represents a truck.
+ * 
+ * @author John Chang
+ * @version 23 April 2016
+ */
+public class Truck extends AbstractVehicle implements Vehicle {
+   
+    /** Constant represent death time for this vehicle. */
+    private static final int DEATHTIME = 0;
+    
+    /**
+     * Instantiates the instance fields.
+     * 
+     * @param theX the X coordinate
+     * @param theY the Y coordinate
+     * @param theDir the Direction
+     */
+    public Truck(final int theX, final int theY, final Direction theDir) {
+        super(theX, theY, theDir, DEATHTIME);
+    }
+
+}

@@ -1,0 +1,209 @@
+/**
+  * TCSS 305 - SPRING 2016
+ * Assignment 3 - Easy Street
+ */
+package model;
+
+import java.util.Map;
+import java.util.Random;
+
+/**
+ * Represents a default behavior for vehicle subclasses.
+ * 
+ * @author John Chang
+ * @version 23 April 2016
+ */
+public abstract class AbstractVehicle implements Vehicle {
+    
+    /** Random object used for all concrete classes. */
+    protected static final Random RANDOM = new Random();
+    
+    /** Stores instance of Direction for concrete classes. */
+    private Direction myDirection;
+    
+    /** Stores initial direction of vehicle. */
+    private final Direction myInitialDir;
+    
+    /** Stores instance of death time for concrete classes. */
+    private final int myDeathTime;
+    
+    /** Stores current X coordinate for concrete classes. */
+    private int myX;
+    
+    /** Stores current Y coordinate for concrete classes. */
+    private int myY;
+    
+    /** Stores the initial Y coordinate. */
+    private final int myInitialY;
+    
+    /** Stores the initial X coordinate. */
+    private final int myInitialX;
+    
+    /** Stores the life status. */ 
+    private boolean myIsAlive;
+    
+    /** Stores the waiting time when death. */
+    private int myLife;
+    
+    /**
+     * This is the constructor for parent class.
+     * 
+     * @param theX is the X coordinate
+     * @param theY is the Y coordinate
+     * @param theDirection is the direction
+     * @param theDeathTime is the death time
+     */
+    public AbstractVehicle(final int theX, final int theY, 
+                           final Direction theDirection, 
+                           final int theDeathTime) {
+        super();
+        myDirection = theDirection;
+        myInitialDir = theDirection;
+        myX = theX;
+        myInitialX = theX;
+        myY = theY;
+        myInitialY = theY;
+        myDeathTime = theDeathTime;
+        myLife = 0;
+        myIsAlive = true;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canPass(final Terrain theTerrain, final Light theLight) {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        return Direction.random();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void collide(final Vehicle theOther) {
+        if (myIsAlive && theOther.isAlive()) {
+            if (getDeathTime() > theOther.getDeathTime()) {
+                myLife = getDeathTime();
+                myIsAlive = false;
+            }
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getDeathTime() {
+        return myDeathTime;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getImageFileName() {
+        final StringBuilder result = new StringBuilder(getClass().getSimpleName());
+        if (myIsAlive) {
+            result.append(".gif");
+        } else {
+            result.append("_dead.gif");
+        }
+        return result.toString().toLowerCase();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Direction getDirection() {
+        return myDirection;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public int getX() {
+        return myX;
+    }
+
+    /** 
+     * {@inheritDoc}
+     */
+    @Override
+    public int getY() {
+        return myY;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isAlive() {
+        boolean result = false;
+        if (myIsAlive) {
+            result = true;
+        } else {
+            result = false;
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void poke() {
+        myLife--;
+        if (myLife == 0) {
+            myIsAlive = true;
+            myDirection = Direction.random();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void reset() {
+        setX(myInitialX);
+        setY(myInitialY);
+        setDirection(myInitialDir);
+        myLife = 0;
+        myIsAlive = true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setDirection(final Direction theDir) {
+        myDirection = theDir;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setX(final int theX) {
+        myX = theX;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setY(final int theY) {
+        myY = theY;
+
+    }
+
+}

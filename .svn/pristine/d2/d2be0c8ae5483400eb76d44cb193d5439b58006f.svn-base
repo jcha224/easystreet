@@ -1,0 +1,76 @@
+/**
+ * TCSS 305 - SPRING 2016
+ * Assignment 3 - Easy Street
+ */
+package model;
+
+import java.util.Map;
+
+/**
+ * Represents a truck.
+ * 
+ * @author John Chang
+ * @version 23 April 2016
+ */
+public class Truck extends AbstractVehicle {
+   
+    /** Constant represent death time for this vehicle. */
+    private static final int DEATHTIME = 0;
+    
+    /**
+     * Instantiates the instance fields.
+     * 
+     * @param theX the X coordinate
+     * @param theY the Y coordinate
+     * @param theDir the Direction
+     */
+    public Truck(final int theX, final int theY, final Direction theDir) {
+        super(theX, theY, theDir, DEATHTIME);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean canPass(final Terrain theTerrain, final Light theLight) {
+        boolean result = false;
+        if (theTerrain == Terrain.STREET 
+                        || theTerrain == Terrain.CROSSWALK
+                        || theTerrain == Terrain.LIGHT) {
+            result = true;
+        } 
+        if (theTerrain == Terrain.CROSSWALK 
+                        && theLight == Light.RED) {
+            result = false;
+        }
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        Direction result = super.chooseDirection(theNeighbors);
+        int terrainCheck = 0;
+        for (final Direction dir : theNeighbors.keySet()) {
+            if (theNeighbors.get(dir) == Terrain.STREET
+                            || theNeighbors.get(dir) == Terrain.CROSSWALK
+                            || theNeighbors.get(dir) == Terrain.LIGHT) {
+                terrainCheck++;
+            }
+        }
+        if (terrainCheck > 1) {
+            while (result == super.getDirection().reverse()
+                        || theNeighbors.get(result) == Terrain.WALL
+                        || theNeighbors.get(result) == Terrain.GRASS
+                        || theNeighbors.get(result) == Terrain.TRAIL) {
+                result = super.chooseDirection(theNeighbors);
+            }
+        } else {
+            result = super.getDirection().reverse();
+        }
+        return result;
+    }
+
+}

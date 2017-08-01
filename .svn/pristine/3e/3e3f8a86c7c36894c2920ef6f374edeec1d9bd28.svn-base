@@ -1,0 +1,19 @@
+package model;
+
+import java.util.Map;
+
+public class Atv extends AbstractVehicle implements Vehicle {
+
+    public Atv() {
+        // TODO Auto-generated constructor stub
+    }
+    
+    @Override
+    public Direction chooseDirection(final Map<Direction, Terrain> theNeighbors) {
+        Direction result = super.chooseDirection(theNeighbors);
+        while (result == myDirection.reverse() || theNeighbors.get(result) == Terrain.WALL) {
+            result = Direction.random();
+        }
+         return result;
+    }
+}
